@@ -1,0 +1,9 @@
+<input [multiSelect]="multiSelect" [formControl]="control" />
+
+<app-multi-select #multiSelect="appMultiSelect">
+  <ng-template appMultiSelectContentDirective>
+    <app-option *ngFor="let option of options" [value]="option.label" [isChecked]="option.isChecked">
+      {{ option.label }}
+    </app-option>
+  </ng-template>
+</app-multi-select>
