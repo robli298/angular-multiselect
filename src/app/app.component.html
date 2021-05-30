@@ -2,7 +2,7 @@
 
 <app-multi-select #multiSelect="appMultiSelect">
   <ng-template appMultiSelectContentDirective>
-    <app-option *ngFor="let option of options" [value]="option.label" [isChecked]="option.isChecked">
+    <app-option *ngFor="let option of options" [option]="option">
       {{ option.label }}
     </app-option>
   </ng-template>

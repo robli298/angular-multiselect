@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+
   Input,
   OnInit,
   ViewChild
@@ -15,18 +16,15 @@ import { mapTo } from 'rxjs/operators';
   template: `<input
       #input
       type="checkbox"
-      [checked]="isChecked"
+      [checked]="option?.isChecked"
     /><ng-content></ng-content>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OptionComponent implements OnInit, AfterViewInit {
   @Input()
-  value!: string;
+  option?: { id: string; label: string; value: string; isChecked: boolean };
 
-  @Input()
-  isChecked!: boolean;
-
-  click$!: Observable<string>;
+  click$?: Observable<any>;
 
   @ViewChild('input')
   input!: ElementRef;
@@ -37,7 +35,7 @@ export class OptionComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.click$ = fromEvent(this.input.nativeElement, 'change').pipe(
-      mapTo(this.value)
+      mapTo(this.option)
     );
   }
 }

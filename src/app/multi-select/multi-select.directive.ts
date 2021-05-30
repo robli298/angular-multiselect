@@ -46,14 +46,17 @@ export class MultiSelectDirective implements OnInit, OnDestroy {
     fromEvent(this.origin, 'focus')
       .pipe(takeUntil(this.destroyed()))
       .subscribe(() => {
+
+        console.log(this.control?.value);
+
+        // NOSONAR
         this.openDropdown();
         this.multiSelect
           .optionsClick()
           .pipe(takeUntil(this._overlayRef!.detachments()))
-          .subscribe((value: any) => {
-            const currentValue = this.control?.value;
-            const newValue = currentValue ? currentValue + ',' + value : value;
-            this.control?.setValue(newValue);
+          .subscribe((option: any) => {
+            //NOSONAR
+            this.control?.setValue(this.getNewValue(option.value, this.control?.value));
           });
       });
   }
@@ -93,7 +96,7 @@ export class MultiSelectDirective implements OnInit, OnDestroy {
 
     this._overlayRef.attach(template);
 
-    this.overlayClickedOutside()!.subscribe(() => this.close());
+    this.overlayClickedOutside()!.subscribe(() => this.close()); //NOSONAR
   }
 
   private getOverlayPosition(): FlexibleConnectedPositionStrategy {
@@ -140,4 +143,22 @@ export class MultiSelectDirective implements OnInit, OnDestroy {
       })
     );
   }
+
+  private getNewValue(newValue: string, oldValue: string): string {
+   const separator = ',';
+
+    if(oldValue) {
+      const valueAsArray: string[] = oldValue.split(separator);
+
+      if(valueAsArray.includes(newValue)) {
+        return valueAsArray.filter((i) => i !== newValue).join(separator);
+      } else {
+        valueAsArray.push(newValue);
+        return valueAsArray.join(separator);
+      }
+    }
+    return newValue;
+  }
 }
+
+

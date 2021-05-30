@@ -11,16 +11,19 @@ export class AppComponent {
     {
       id: '12',
       label: 'test 1',
+      value: 'test 1',
       isChecked: false,
     },
     {
       id: '1',
       label: 'test 2',
+      value: 'test 2',
       isChecked: false,
     },
     {
       id: '34',
       label: 'test 3',
+      value: 'test 3',
       isChecked: false,
     },
   ];
